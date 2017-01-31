@@ -12,7 +12,7 @@ OBJ=$(SRC:%.cc=%.o)
 EXE=$(SRC:%.cc=exec/%)
 
 all: $(EXE) exec/motb
-
+all: $(EXE) exec/schedparam
 .PHONY: .FORCE
 
 $(OBJ): %.o: %.cc
@@ -33,6 +33,16 @@ exec/motb: .FORCE
 	@echo -n "Build Date: " >> $@
 	@date >> $@
 	@echo >> $@
+
+exec/schedparam: .FORCE
+	@echo creating $@
+	@mkdir -p exec
+	@echo > $@
+	@echo "schedMinGranularity 4" >> $@
+	@echo >> $@
+	@echo -n "defaultEpochLength 20" >> $@
+	@echo >> $@
+
 
 echo:
 	@echo SRC: $(SRC)
