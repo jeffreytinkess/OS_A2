@@ -34,8 +34,8 @@ class Scheduler {
   volatile mword resumption;
 
 
-  unsigned int schedMinGranularity;
-  unsigned int defaultEpochLength;
+  static unsigned int schedMinGranularity;
+  static unsigned int defaultEpochLength;
 
   Scheduler* partner;
 
@@ -59,11 +59,11 @@ public:
 
   //Assignment 2 start
 
-  void setMinGran(unsigned int toSet)   {schedMinGranularity = toSet;}
-  void setDefaultEpoch(unsigned int toSet)    {defaultEpochLength = toSet;}
+  static void setMinGran(unsigned int toSet);
+  static void setDefaultEpoch(unsigned int toSet);
 
-  unsigned int getMinGran()   {return schedMinGranularity;}
-  unsigned int getDefaultEpoch()    {return defaultEpochLength;}
+  static unsigned int getMinGran();
+  static unsigned int getDefaultEpoch();
 
 
   //Assignment 2 end

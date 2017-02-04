@@ -20,7 +20,10 @@
 #include "runtime/Thread.h"
 #include "kernel/Output.h"
 
-Scheduler::Scheduler() : readyCount(0), preemption(0), resumption(0), partner(this) {
+unsigned int Scheduler::schedMinGranularity = 4;
+unsigned int Scheduler::defaultEpochLength = 20;
+
+Scheduler::Scheduler() : readyCount(0), preemption(0), resumption(0), partner(this){
   Thread* idleThread = Thread::create((vaddr)idleStack, minimumStack);
   idleThread->setAffinity(this)->setPriority(idlePriority);
   // use low-level routines, since runtime context might not exist
@@ -28,10 +31,22 @@ Scheduler::Scheduler() : readyCount(0), preemption(0), resumption(0), partner(th
   readyQueue[idlePriority].push_back(*idleThread);
   readyCount += 1;
   //Assignment 2 variables init
-  schedMinGranularity = 4;
-  defaultEpochLength = 20;
+  //unsigned int schedMinGranularity = 4;
+  //unsigned int defaultEpochLength = 20;
+  //Scheduler::setMinGran(4);
+  //Scheduler::setDefaultEpoch(20);
 }
 
+//Assignment 2 start
+
+void Scheduler::setMinGran(unsigned int toSet)   {schedMinGranularity = toSet;}
+void Scheduler::setDefaultEpoch(unsigned int toSet)    {defaultEpochLength = toSet;}
+
+unsigned int Scheduler::getMinGran()   {return schedMinGranularity;}
+unsigned int Scheduler::getDefaultEpoch()    {return defaultEpochLength;}
+
+
+//Assignment 2 end
 
 static inline void unlock() {}
 
