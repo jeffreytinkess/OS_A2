@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,10 +28,14 @@ class Scheduler {
 
   // very simple N-class prio scheduling
   BasicLock readyLock;
-  volatile mword readyCount; 
+  volatile mword readyCount;
   EmbeddedList<Thread> readyQueue[maxPriority];
   volatile mword preemption;
   volatile mword resumption;
+
+
+  unsigned int schedMinGranularity;
+  unsigned int defaultEpochLength;
 
   Scheduler* partner;
 
@@ -51,6 +55,18 @@ public:
   void suspend(BasicLock& lk);
   void suspend(BasicLock& lk1, BasicLock& lk2);
   void terminate() __noreturn;
+
+
+  //Assignment 2 start
+
+  void setMinGran(unsigned int toSet)   {schedMinGranularity = toSet;}
+  void setDefaultEpoch(unsigned int toSet)    {defaultEpochLength = toSet;}
+
+  unsigned int getMinGran()   {return schedMinGranularity;}
+  unsigned int getDefaultEpoch()    {return defaultEpochLength;}
+
+
+  //Assignment 2 end
 };
 
 #endif /* _Scheduler_h_ */

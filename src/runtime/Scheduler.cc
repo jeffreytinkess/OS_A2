@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +27,11 @@ Scheduler::Scheduler() : readyCount(0), preemption(0), resumption(0), partner(th
   idleThread->stackPointer = stackInit(idleThread->stackPointer, &Runtime::getDefaultMemoryContext(), (ptr_t)Runtime::idleLoop, this, nullptr, nullptr);
   readyQueue[idlePriority].push_back(*idleThread);
   readyCount += 1;
+  //Assignment 2 variables init
+  schedMinGranularity = 4;
+  defaultEpochLength = 20;
 }
+
 
 static inline void unlock() {}
 
