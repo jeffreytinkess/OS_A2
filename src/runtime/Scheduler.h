@@ -19,6 +19,7 @@
 
 #include "generic/EmbeddedContainers.h"
 #include "runtime/Runtime.h"
+#include "kernel/Tree.cc"
 
 class Thread;
 
@@ -32,7 +33,7 @@ class Scheduler {
   EmbeddedList<Thread> readyQueue[maxPriority];
   volatile mword preemption;
   volatile mword resumption;
-
+  Tree<ThreadNode> *readyTree;
 
   static unsigned int schedMinGranularity;
   static unsigned int defaultEpochLength;

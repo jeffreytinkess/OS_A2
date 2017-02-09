@@ -20,8 +20,8 @@
 #include "runtime/Thread.h"
 #include "kernel/Output.h"
 
-unsigned int Scheduler::schedMinGranularity = 4;
-unsigned int Scheduler::defaultEpochLength = 20;
+unsigned int Scheduler::schedMinGranularity;
+unsigned int Scheduler::defaultEpochLength;
 
 Scheduler::Scheduler() : readyCount(0), preemption(0), resumption(0), partner(this){
   Thread* idleThread = Thread::create((vaddr)idleStack, minimumStack);
@@ -31,6 +31,7 @@ Scheduler::Scheduler() : readyCount(0), preemption(0), resumption(0), partner(th
   readyQueue[idlePriority].push_back(*idleThread);
   readyCount += 1;
   //Assignment 2 variables init
+  readyTree = new Tree<ThreadNode>();
   //unsigned int schedMinGranularity = 4;
   //unsigned int defaultEpochLength = 20;
   //Scheduler::setMinGran(4);
