@@ -1018,7 +1018,7 @@ extern "C" void irq_handler_0xf8(mword* isrFrame) { // RTC interrupt
   if (!irqMask.empty()) asyncIrqSem.V(); // check interrupts
   Timeout::checkExpiry(Clock::now());    // check timeout queue
   Machine::rrPreemptIPI(rtc.tick());     // simulate APIC timer interrupts
-
+/*
   //Assignment 2 code start
 
   //For each processor, get a reference to its scheduler and call function to check scheduling
@@ -1030,7 +1030,7 @@ extern "C" void irq_handler_0xf8(mword* isrFrame) { // RTC interrupt
     //sched->schedInt();
   }
 
-  //Assignment 2 code end
+  //Assignment 2 code end*/
 }
 
 //Assignment 2 function, copied from lab slides
