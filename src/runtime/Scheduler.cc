@@ -141,10 +141,35 @@ void Scheduler::preempt() {               // IRQs disabled, lock count inflated
 #else /* simple load balancing */
   if (!target) target = (partner->readyCount + 2 < readyCount) ? partner : this;
 #endif
+  KOUT::outl("Test");
   switchThread(target);
 #endif
 }
 
+void Scheduler::schedInt(){/*
+  //Assignment 2 functions
+  Thread* curThread = Runtime::getCurrThread();
+  //Modify to use priority
+  mword curPriority = Runtime::getCurrThread()->priority;
+  curThread->vRuntime += curPriority;
+  mword curRunTime = curThread->vRuntime;
+  if (curRunTime >= Scheduler::getMinGran()){
+    //check if leftmost vruntime is less than curRunTime
+    if (readyTree->empty()){
+      return;
+    }
+    Thread* t = readyTree->readMinNode()->th;
+    mword leftTime = t->vRuntime;
+    if (leftTime < curRunTime){
+      //Put current thread back in tree, get left node, run left node
+      readyTree->insert(curThread);
+      Thread* newThread = readyTree->popMinNode();
+      minvRuntime = newThread->vRuntime;
+      //Schedule newThread to run
+    }
+  }
+*/
+}
 void Scheduler::suspend(BasicLock& lk) {
   Runtime::FakeLock fl;
   switchThread(nullptr, lk);

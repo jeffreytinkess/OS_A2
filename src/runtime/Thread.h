@@ -55,6 +55,7 @@ protected:
 
 public:
   mword priority;           // scheduling priority
+  mword vRuntime = 0;
   static Thread* create(size_t ss);
   static Thread* create();
   void destroy();

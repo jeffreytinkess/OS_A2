@@ -38,7 +38,7 @@ exec/schedparam: .FORCE
 	@echo creating $@
 	@mkdir -p exec
 	@echo > $@
-	@echo "schedMinGranularity 4" >> $@
+	@echo "schedMinGranularity 10000" >> $@
 	@echo >> $@
 	@echo -n "defaultEpochLength 20" >> $@
 	@echo >> $@

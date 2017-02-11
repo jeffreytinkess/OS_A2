@@ -42,7 +42,7 @@ class Scheduler {
 
   template<typename... Args>
   inline void switchThread(Scheduler* target, Args&... a);
-
+  mword minvRuntime;
   inline void enqueue(Thread& t);
 
   Scheduler(const Scheduler&) = delete;                  // no copy
@@ -56,7 +56,7 @@ public:
   void suspend(BasicLock& lk);
   void suspend(BasicLock& lk1, BasicLock& lk2);
   void terminate() __noreturn;
-
+  void schedInt();
 
   //Assignment 2 start
 

@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -533,7 +533,7 @@ void Machine::setupIDTable() {
   for (size_t i = 0; i < MaxIrqCount; i += 1) {
     irqTable[i].ioApicAddr    = 0;
     irqTable[i].ioApicIrq     = 0;
-    irqTable[i].globalIrq     = i; 
+    irqTable[i].globalIrq     = i;
     irqTable[i].overrideFlags = 0;
   }
 
@@ -1018,8 +1018,26 @@ extern "C" void irq_handler_0xf8(mword* isrFrame) { // RTC interrupt
   if (!irqMask.empty()) asyncIrqSem.V(); // check interrupts
   Timeout::checkExpiry(Clock::now());    // check timeout queue
   Machine::rrPreemptIPI(rtc.tick());     // simulate APIC timer interrupts
+
+  //Assignment 2 code start
+
+  //For each processor, get a reference to its scheduler and call function to check scheduling
+  mword numProc = Machine::getProcessorCount();
+  for (int i = 0; i < numProc; i++){
+    //get processor i scheduler
+    Scheduler* sched = Machine::getScheduler(i);
+    //tell that scheduler "check ready queue"
+    //sched->schedInt();
+  }
+
+  //Assignment 2 code end
 }
 
+//Assignment 2 function, copied from lab slides
+Scheduler* Machine::getScheduler(mword idx){
+  KASSERT1(idx < processorCount, idx);
+  return processorTable[idx].scheduler;
+}
 extern "C" void irq_handler_0xf9(mword* isrFrame) { // spuriously seen
   IsrEntry<true> ie(isrFrame);
   KERR::out1(" IRQ-F9");
