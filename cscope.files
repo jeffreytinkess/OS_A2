@@ -34,6 +34,7 @@
 ./src/kernel/Multiboot.cc
 ./src/kernel/Process.cc
 ./src/kernel/syscalls.cc
+./src/kernel/Tree.cc
 ./src/kernel/AddressSpace.cc
 ./src/kernel/MemoryManager.cc
 ./src/kernel/Kernel.cc

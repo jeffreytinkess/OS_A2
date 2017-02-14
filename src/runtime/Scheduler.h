@@ -30,7 +30,7 @@ class Scheduler {
   // very simple N-class prio scheduling
   BasicLock readyLock;
   volatile mword readyCount;
-  EmbeddedList<Thread> readyQueue[maxPriority];
+  //EmbeddedList<Thread> readyQueue[maxPriority];
   volatile mword preemption;
   volatile mword resumption;
   Tree<ThreadNode> *readyTree;
@@ -58,6 +58,7 @@ public:
   void terminate() __noreturn;
   void schedInt();
 
+
   //Assignment 2 start
 
   static void setMinGran(unsigned int toSet);
@@ -65,7 +66,7 @@ public:
 
   static unsigned int getMinGran();
   static unsigned int getDefaultEpoch();
-
+  mword getminvRuntime() {return minvRuntime;};
 
   //Assignment 2 end
 };

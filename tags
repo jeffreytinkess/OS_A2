@@ -8134,7 +8134,7 @@ SZT_F	./src/extern/lwip/lwip/src/include/lwip/arch.h	47;"	d
 S_IFDIR	./src/extern/acpica/source/include/platform/acmsvc.h	139;"	d
 S_IREAD	./src/extern/acpica/source/include/platform/acmsvc.h	137;"	d
 S_IWRITE	./src/extern/acpica/source/include/platform/acmsvc.h	138;"	d
-Scheduler	./src/runtime/Scheduler.cc	/^Scheduler::Scheduler() : readyCount(0), preemption(0), resumption(0), partner(this) {$/;"	f	class:Scheduler
+Scheduler	./src/runtime/Scheduler.cc	/^Scheduler::Scheduler() : readyCount(0), preemption(0), resumption(0), partner(this){$/;"	f	class:Scheduler
 Scheduler	./src/runtime/Scheduler.h	/^class Scheduler {$/;"	c
 SciCount	./src/extern/acpica/source/include/actypes.h	/^    UINT32                          SciCount;$/;"	m	struct:acpi_statistics
 SciInterrupt	./src/extern/acpica/source/include/actbl.h	/^    UINT16                  SciInterrupt;       \/* System vector of SCI interrupt *\/$/;"	m	struct:acpi_table_fadt
@@ -8614,6 +8614,8 @@ ThreadCount	./src/extern/acpica/source/include/acobject.h	/^    UINT8           
 ThreadId	./src/extern/acpica/source/include/aclocal.h	/^    ACPI_THREAD_ID                  ThreadId;               \/* Running thread ID *\/$/;"	m	struct:acpi_thread_state
 ThreadId	./src/extern/acpica/source/include/aclocal.h	/^    ACPI_THREAD_ID                  ThreadId;$/;"	m	struct:acpi_mutex_info
 ThreadId	./src/extern/acpica/source/include/acobject.h	/^    ACPI_THREAD_ID                  ThreadId;           \/* Current owner of the mutex *\/$/;"	m	struct:acpi_object_mutex
+ThreadNode	./src/kernel/Tree.cc	/^	ThreadNode(Thread *t){$/;"	f	class:ThreadNode
+ThreadNode	./src/kernel/Tree.cc	/^class ThreadNode{$/;"	c	file:
 ThreadStats	./src/runtime/Runtime.h	/^    ThreadStats() : tscLast(0), tscTotal(0) {}$/;"	f	struct:Runtime::ThreadStats
 ThreadStats	./src/runtime/Runtime.h	/^  struct ThreadStats {$/;"	s	namespace:Runtime
 Threads	./src/extern/acpica/source/include/aclocal.h	/^    ACPI_THREAD_ID                  *Threads;$/;"	m	struct:acpi_db_method_info
@@ -8654,6 +8656,8 @@ TranslationOffset	./src/extern/acpica/source/include/amlresrc.h	/^    UINT32    
 TranslationOffset	./src/extern/acpica/source/include/amlresrc.h	/^    UINT64                          TranslationOffset;$/;"	m	struct:aml_resource_address64
 TranslationOffset	./src/extern/acpica/source/include/amlresrc.h	/^    UINT64                          TranslationOffset;$/;"	m	struct:aml_resource_extended_address64
 TranslationType	./src/extern/acpica/source/include/acrestyp.h	/^    UINT8                           TranslationType;$/;"	m	struct:acpi_io_attribute
+Tree	./src/kernel/Tree.cc	/^    Tree() : root(nullptr) { }$/;"	f	class:Tree
+Tree	./src/kernel/Tree.cc	/^class Tree {$/;"	c	file:
 TriggerAction	./src/extern/acpica/source/include/actbl2.h	/^    UINT32                  TriggerAction;$/;"	m	struct:acpi_lpit_io
 TriggerMask	./src/extern/acpica/source/include/actbl2.h	/^    UINT64                  TriggerMask;$/;"	m	struct:acpi_lpit_io
 TriggerMode0	./src/machine/APIC.h	/^  __aligned(0x10) volatile uint32_t TriggerMode0;      \/\/ 0x180$/;"	m	class:APIC
@@ -9715,6 +9719,7 @@ asn_type	./src/extern/lwip/lwip/src/include/lwip/snmp_structs.h	/^  u8_t asn_typ
 asyncIrqLoop	./src/machine/Machine.cc	/^void Machine::asyncIrqLoop() {$/;"	f	class:Machine
 asyncIrqSem	./src/machine/Machine.cc	/^static Semaphore asyncIrqSem;$/;"	v	file:
 asyncmap	./src/extern/lwip/lwip/src/netif/ppp/lcp.h	/^    u32_t asyncmap;              \/* Value of async map *\/$/;"	m	struct:lcp_options
+augment	./src/kernel/Tree.cc	/^    void augment(node *n) {$/;"	f	class:Tree	file:
 auth_required	./src/extern/lwip/lwip/src/netif/ppp/ppp_impl.h	/^  u_int  auth_required     : 1;       \/* Peer is required to authenticate *\/$/;"	m	struct:ppp_settings
 autoip	./src/extern/lwip/lwip/src/include/ipv4/lwip/autoip.h	/^struct autoip$/;"	s
 autoip	./src/extern/lwip/lwip/src/include/lwip/netif.h	/^  struct autoip *autoip;$/;"	m	struct:netif	typeref:struct:netif::autoip
@@ -10001,9 +10006,12 @@ debugS	./src/runtime/Runtime.h	/^  static void debugS(const Args&... a) { DBG::o
 debugT	./src/runtime/Runtime.h	/^  static void debugT(const Args&... a) { DBG::outl(DBG::Threads, a...); }$/;"	f	namespace:Runtime
 decLockCount	./src/machine/Processor.h	/^  static void decLockCount() {$/;"	f	class:LocalProcessor
 defPriority	./src/runtime/Runtime.h	/^static const mword  defPriority = 1;$/;"	v
+defaultEpochLength	./src/runtime/Scheduler.cc	/^unsigned int Scheduler::defaultEpochLength;$/;"	m	class:Scheduler	file:
+defaultEpochLength	./src/runtime/Scheduler.h	/^  static unsigned int defaultEpochLength;$/;"	m	class:Scheduler
 defaultStack	./src/machine/Memory.h	/^static const size_t defaultStack     = 2 * pagesize<stackpl>();$/;"	v
 defaultUserStack	./src/machine/Memory.h	/^static const size_t defaultUserStack = 2 * pagesize<stackpl>();$/;"	v
 default_route	./src/extern/lwip/lwip/src/netif/ppp/ipcp.h	/^  u_int   default_route : 1; \/* Assign default route through interface? *\/$/;"	m	struct:ipcp_options
+deleteNode	./src/kernel/Tree.cc	/^    void deleteNode(const T &item) {erase(find(item));}$/;"	f	class:Tree
 demand_conf	./src/extern/lwip/lwip/src/netif/ppp/ppp_impl.h	/^    int  (*demand_conf) (int unit);$/;"	m	struct:protent
 depth	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint32_t depth;$/;"	m	struct:multiboot_header_tag_framebuffer
 depth	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint32_t depth;$/;"	m	struct:multiboot_header_tag_module_align
@@ -10097,6 +10105,7 @@ empty	./src/generic/EmbeddedContainers.h	/^  bool empty() const {$/;"	f	class:Em
 empty	./src/generic/ManagedArray.h	/^  bool   empty()           const { return size() == 0; }$/;"	f	class:ManagedArray
 empty	./src/include/pthread.h	/^  bool empty() {$/;"	f	class:Benaphore
 empty	./src/kernel/MemoryManager.h	/^  bool empty() { return freestack == nullptr; }$/;"	f	struct:BlockStore
+empty	./src/kernel/Tree.cc	/^    bool empty() const {$/;"	f	class:Tree
 empty	./src/runtime/BlockingSync.h	/^  bool empty() const { return queue.empty(); }$/;"	f	class:BlockingQueue
 empty	./src/runtime/BlockingSync.h	/^  bool empty() { return bq.empty(); }$/;"	f	class:Condition
 empty	./src/runtime/BlockingSync.h	/^  bool empty() { return bq.empty(); }$/;"	f	class:Semaphore
@@ -10117,6 +10126,7 @@ entry_addr	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint32_t entry_addr
 entry_size	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint32_t entry_size;$/;"	m	struct:multiboot_tag_mmap
 entry_version	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint32_t entry_version;$/;"	m	struct:multiboot_tag_mmap
 entsize	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint32_t entsize;$/;"	m	struct:multiboot_tag_elf_sections
+erase	./src/kernel/Tree.cc	/^    void erase(node *n) {$/;"	f	class:Tree
 err	./src/extern/lwip/lwip/src/include/lwip/api_msg.h	/^  err_t *err;$/;"	m	struct:dns_api_msg
 err	./src/extern/lwip/lwip/src/include/lwip/api_msg.h	/^  err_t err;$/;"	m	struct:api_msg_msg
 err	./src/extern/lwip/lwip/src/include/lwip/netifapi.h	/^  err_t err;$/;"	m	struct:netifapi_msg_msg
@@ -10197,6 +10207,7 @@ fence	./src/generic/EmbeddedContainers.h	/^  Link*        fence()       { return
 fence	./src/generic/EmbeddedContainers.h	/^  const Link*  fence() const { return &anchor; }$/;"	f	class:EmbeddedList
 fill	./src/kernel/MemoryManager.h	/^  template<size_t S> void fill(vaddr p, size_t s) {$/;"	f	struct:BlockStore
 filled	./src/generic/Bitmap.h	/^  static Bitmap filled() { return Bitmap(~mword(0)); }$/;"	f	class:Bitmap
+find	./src/kernel/Tree.cc	/^    node* find(const T &item) const {$/;"	f	class:Tree
 findCdiDriver	./src/extern/cdi/cdi_glue.cc	/^bool findCdiDriver(const PCIDevice &pciDev) {$/;"	f
 findclear	./src/generic/Bitmap.h	/^  constexpr mword findclear() const { return multiscan<N,false>(bits); }$/;"	f	class:Bitmap
 findclear	./src/generic/Bitmap.h	/^  mword findclear() const { return lsbcond(~bits); }$/;"	f	class:Bitmap
@@ -10208,6 +10219,7 @@ findset_rev	./src/generic/Bitmap.h	/^  constexpr mword findset_rev() const { ret
 findset_rev	./src/generic/Bitmap.h	/^  mword findset_rev() const { return msbcond(bits); }$/;"	f	class:Bitmap
 findset_rev	./src/generic/Bitmap.h	/^  size_t findset_rev() const {$/;"	f	class:HierarchicalBitmap
 finished	./src/extern/lwip/lwip/src/netif/ppp/fsm.h	/^  void (*finished)(fsm*);                           \/* Called when we don't want the lower layer *\/$/;"	m	struct:fsm_callbacks
+fix	./src/kernel/Tree.cc	/^    void fix(node *n) {$/;"	f	class:Tree	file:
 flags	./src/extern/lwip/lwip/src/include/ipv4/lwip/ip_frag.h	/^  u8_t flags;$/;"	m	struct:ip_reassdata
 flags	./src/extern/lwip/lwip/src/include/lwip/api.h	/^  u8_t flags;$/;"	m	struct:netconn
 flags	./src/extern/lwip/lwip/src/include/lwip/netbuf.h	/^  u8_t flags;$/;"	m	struct:netbuf
@@ -10310,6 +10322,7 @@ getCurrThread	./src/machine/Processor.h	/^  static Thread* getCurrThread() {$/;"
 getCurrThread	./src/runtime/Runtime.h	/^  static Thread* getCurrThread() { return LocalProcessor::getCurrThread(); }$/;"	f	namespace:Runtime
 getCurrentThreadID	./src/kernel/Process.h	/^  static mword getCurrentThreadID() {$/;"	f	class:Process
 getCycleCount	./src/runtime/Runtime.h	/^    mword getCycleCount() const  { return tscTotal; }$/;"	f	struct:Runtime::ThreadStats
+getDefaultEpoch	./src/runtime/Scheduler.cc	/^unsigned int Scheduler::getDefaultEpoch()    {return defaultEpochLength;}$/;"	f	class:Scheduler
 getDefaultMemoryContext	./src/runtime/Runtime.h	/^  static MemoryContext& getDefaultMemoryContext() { return kernelSpace; }$/;"	f	namespace:Runtime
 getDevice	./src/devices/PCI.h	/^  uint8_t getDevice() const { return dev; }$/;"	f	class:PCIDevice
 getEntry	./src/machine/Paging.h	/^  template <unsigned int N> static constexpr PageEntry* getEntry( vaddr vma ) {$/;"	f	class:Paging
@@ -10326,6 +10339,7 @@ getKernPI	./src/machine/Processor.h	/^  static PageInvalidation* getKernPI() {$/
 getLockCount	./src/machine/Processor.h	/^  static mword getLockCount() {$/;"	f	class:LocalProcessor
 getMemory	./src/kernel/Multiboot.cc	/^void Multiboot::getMemory(RegionSet<Region<paddr>>& rs) {$/;"	f	class:Multiboot
 getMemoryContext	./src/runtime/Runtime.h	/^  static MemoryContext& getMemoryContext()        { return CurrAS(); }$/;"	f	namespace:Runtime
+getMinGran	./src/runtime/Scheduler.cc	/^unsigned int Scheduler::getMinGran()   {return schedMinGranularity;}$/;"	f	class:Scheduler
 getProcessorCount	./src/machine/Machine.h	/^  static mword getProcessorCount() { return processorCount; }$/;"	f	class:Machine
 getRSDP	./src/kernel/Multiboot.cc	/^vaddr Multiboot::getRSDP() {$/;"	f	class:Multiboot
 getRedirects	./src/machine/APIC.cc	/^uint8_t IOAPIC::getRedirects() {$/;"	f	class:IOAPIC
@@ -10333,6 +10347,7 @@ getReg32	./src/gdb/Gdb.cc	/^static reg32_t getReg32(size_t regno, mword cpuIdx =
 getReg64	./src/gdb/Gdb.cc	/^static reg64_t getReg64(size_t regno, mword cpuIdx = cTID()-1) {$/;"	f	file:
 getRegptr32	./src/gdb/Gdb.cc	/^static reg32_t* getRegptr32(size_t regno, mword cpuIdx = cTID()-1) {$/;"	f	file:
 getRegptr64	./src/gdb/Gdb.cc	/^static reg64_t* getRegptr64(size_t regno, mword cpuIdx = cTID()-1) {$/;"	f	file:
+getScheduler	./src/machine/Machine.cc	/^Scheduler* Machine::getScheduler(mword idx){$/;"	f	class:Machine
 getScheduler	./src/machine/Processor.h	/^  static Scheduler* getScheduler() {$/;"	f	class:LocalProcessor
 getScheduler	./src/runtime/Runtime.h	/^  static Scheduler* getScheduler() { return LocalProcessor::getScheduler(); }$/;"	f	namespace:Runtime
 getSignalHandler	./src/kernel/Process.h	/^  vaddr getSignalHandler() { return sigHandler; }$/;"	f	class:Process
@@ -10434,6 +10449,8 @@ header_addr	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint32_t header_ad
 header_length	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint32_t header_length;$/;"	m	struct:multiboot_header
 height	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint32_t height;$/;"	m	struct:multiboot_header_tag_framebuffer
 height	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint32_t height;$/;"	m	struct:multiboot_header_tag_module_align
+height	./src/kernel/Tree.cc	/^        int size, height;$/;"	m	struct:Tree::node	file:
+height	./src/kernel/Tree.cc	/^    inline int height(node *n) const { return n ? n->height : -1; }$/;"	f	class:Tree	file:
 hex2mem	./src/gdb/Gdb.cc	/^static char* hex2mem(char *buf, char *mem, int count, int may_fault) {$/;"	f	file:
 hexToInt	./src/gdb/Gdb.cc	/^static int hexToInt(char **ptr, long *intValue) {$/;"	f	file:
 hexchars	./src/gdb/Gdb.cc	/^static const char hexchars[]="0123456789abcdef";$/;"	v	file:
@@ -10548,6 +10565,7 @@ input	./src/extern/lwip/lwip/src/include/lwip/netif.h	/^  netif_input_fn input;$
 input	./src/extern/lwip/lwip/src/include/lwip/netifapi.h	/^      netif_input_fn input;$/;"	m	struct:netifapi_msg_msg::__anon26::__anon27
 input	./src/extern/lwip/lwip/src/netif/ppp/ppp_impl.h	/^    void (*input) (int unit, u_char *pkt, int len);$/;"	m	struct:protent
 insert	./src/generic/RegionSet.h	/^  R insert( R r ) {$/;"	f	class:RegionSet
+insert	./src/kernel/Tree.cc	/^    void insert(const T &item) {$/;"	f	class:Tree
 insert_after	./src/generic/EmbeddedContainers.h	/^  static void insert_after(T& prev, T& elem) {$/;"	f	class:EmbeddedList
 insert_after	./src/generic/EmbeddedContainers.h	/^  static void insert_after(T& prev, T& first, T&last) {$/;"	f	class:EmbeddedList
 insert_before	./src/generic/EmbeddedContainers.h	/^  static void insert_before(T& next, T& elem) {$/;"	f	class:EmbeddedList
@@ -10665,6 +10683,7 @@ isatty	./src/kernel/syscalls.cc	/^extern "C" int isatty(int fd) {$/;"	f
 isatty	./src/ulib/libKOS.cc	/^extern "C" int isatty(int fildes) {$/;"	f
 ispow2	./src/generic/basics.h	/^static inline constexpr bool ispow2( T x ) {$/;"	f
 ist	./src/machine/Descriptors.h	/^  uint64_t ist[7];$/;"	m	struct:TaskStateSegment
+item	./src/kernel/Tree.cc	/^        T item; node *p, *l, *r;$/;"	m	struct:Tree::node	file:
 items	./src/extern/cdi/include/cdi/mem.h	/^    struct cdi_mem_sg_item* items;$/;"	m	struct:cdi_mem_sg_list	typeref:struct:cdi_mem_sg_list::cdi_mem_sg_item
 iterator	./src/generic/RegionSet.h	/^  typedef typename baseclass::iterator iterator;$/;"	t	class:RegionSet
 jl	./src/extern/lwip/lwip/src/include/lwip/api_msg.h	/^    } jl;$/;"	m	union:api_msg_msg::__anon32	typeref:struct:api_msg_msg::__anon32::__anon39
@@ -10716,6 +10735,7 @@ knew2	./src/kernel/MemoryManager.h	/^T* knew2(Args&&... a) {$/;"	f
 knewN	./src/kernel/MemoryManager.h	/^T* knewN(size_t n) {$/;"	f
 ko	./src/world/Access.h	/^  KernelOutput& ko;$/;"	m	class:OutputAccess
 kosMain	./src/kernel/Kernel.cc	/^void kosMain() {$/;"	f
+l	./src/kernel/Tree.cc	/^        T item; node *p, *l, *r;$/;"	m	struct:Tree::node	file:
 l_linger	./src/extern/lwip/lwip/src/include/lwip/sockets.h	/^       int l_linger;               \/* linger time *\/$/;"	m	struct:linger
 l_onoff	./src/extern/lwip/lwip/src/include/lwip/sockets.h	/^       int l_onoff;                \/* option on\/off *\/$/;"	m	struct:linger
 largeFrames	./src/kernel/FrameManager.h	/^  LFBitmap largeFrames; \/\/ large page container$/;"	m	class:FrameManager
@@ -10733,6 +10753,8 @@ lb	./src/extern/lwip/lwip/src/include/lwip/api_msg.h	/^    } lb;$/;"	m	union:api
 lcp_options	./src/extern/lwip/lwip/src/netif/ppp/lcp.h	/^typedef struct lcp_options {$/;"	s
 lcp_options	./src/extern/lwip/lwip/src/netif/ppp/lcp.h	/^} lcp_options;$/;"	t	typeref:struct:lcp_options
 led	./src/devices/Keyboard.h	/^  int  led;                             \/\/ led status byte$/;"	m	class:Keyboard
+left_heavy	./src/kernel/Tree.cc	/^    inline bool left_heavy(node *n) const {$/;"	f	class:Tree	file:
+left_rotate	./src/kernel/Tree.cc	/^    void left_rotate(node *n) { rotate(r, l); }$/;"	f	class:Tree	file:
 legacy_free	./src/kernel/MemoryManager.cc	/^void MemoryManager::legacy_free(ptr_t p) {$/;"	f	class:MemoryManager
 legacy_malloc	./src/kernel/MemoryManager.cc	/^ptr_t MemoryManager::legacy_malloc(size_t s) {$/;"	f	class:MemoryManager
 len	./src/extern/lwip/lwip/src/include/ipv6/lwip/ip.h	/^  u16_t len;                \/* payload length *\/$/;"	m	struct:ip_hdr
@@ -10915,6 +10937,7 @@ mib_ram_array_node	./src/extern/lwip/lwip/src/include/lwip/snmp_structs.h	/^stru
 mib_scalar_node	./src/extern/lwip/lwip/src/include/lwip/snmp_structs.h	/^typedef struct mib_node mib_scalar_node;$/;"	t	typeref:struct:mib_node
 minimumStack	./src/machine/Memory.h	/^static const size_t minimumStack     = 1 * pagesize<stackpl>();$/;"	v
 minor	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint8_t minor;$/;"	m	struct:multiboot_tag_smbios
+minvRuntime	./src/runtime/Scheduler.h	/^  mword minvRuntime;$/;"	m	class:Scheduler
 mkdir	./src/extern/acpica/source/include/platform/acmsvc.h	130;"	d
 mkdir	./src/extern/acpica/source/tools/acpisrc/acpisrc.h	128;"	d
 mmap	./src/ulib/libKOS.cc	/^extern "C" void* mmap(void* addr, size_t len, int prot, int flags, int filedes, off_t off) {$/;"	f
@@ -11104,6 +11127,8 @@ next	./src/kernel/MemoryManager.h	/^  struct Free { Free* next; };$/;"	m	struct:
 nextScheduler	./src/runtime/Thread.h	/^  Scheduler* nextScheduler; \/\/ resume on same core (for now)$/;"	m	class:Thread
 nexthdr	./src/extern/lwip/lwip/src/include/ipv6/lwip/ip.h	/^  u8_t nexthdr;             \/* next header *\/$/;"	m	struct:ip_hdr
 nmiIST	./src/machine/Processor.h	/^  static const unsigned int nmiIST = 1;$/;"	m	class:Processor
+node	./src/kernel/Tree.cc	/^        node(const T &_item, node *_p = nullptr) : item(_item), p(_p),$/;"	f	struct:Tree::node
+node	./src/kernel/Tree.cc	/^    struct node {$/;"	s	class:Tree	file:
 node_type	./src/extern/lwip/lwip/src/include/lwip/snmp_structs.h	/^  u8_t node_type;$/;"	m	struct:mib_array_node
 node_type	./src/extern/lwip/lwip/src/include/lwip/snmp_structs.h	/^  u8_t node_type;$/;"	m	struct:mib_external_node
 node_type	./src/extern/lwip/lwip/src/include/lwip/snmp_structs.h	/^  u8_t node_type;$/;"	m	struct:mib_list_rootnode
@@ -11114,6 +11139,7 @@ nptr	./src/extern/lwip/lwip/src/include/lwip/snmp_structs.h	/^  struct mib_node 
 nptr	./src/extern/lwip/lwip/src/include/lwip/snmp_structs.h	/^  struct mib_node *nptr;$/;"	m	struct:mib_list_node	typeref:struct:mib_list_node::mib_node
 nptr	./src/extern/lwip/lwip/src/include/lwip/snmp_structs.h	/^  struct mib_node* const *nptr;$/;"	m	struct:mib_array_node
 nrtx	./src/extern/lwip/lwip/src/include/lwip/tcp.h	/^  u8_t nrtx;    \/* number of retransmissions *\/$/;"	m	struct:tcp_pcb
+nth	./src/kernel/Tree.cc	/^    node* nth(int n, node *cur = nullptr) const {$/;"	f	class:Tree
 ntohl	./src/extern/lwip/lwip/src/include/lwip/def.h	74;"	d
 ntohl	./src/extern/lwip/lwip/src/include/lwip/def.h	80;"	d
 ntohs	./src/extern/lwip/lwip/src/include/lwip/def.h	71;"	d
@@ -11157,11 +11183,14 @@ open	./src/kernel/syscalls.cc	/^extern "C" int open(const char *path, int oflag,
 open	./src/ulib/libKOS.cc	/^extern "C" int open(const char *path, int oflag, ...) {$/;"	f
 operator ()	./src/generic/bitmanip.h	/^  constexpr T operator()() const { return bitmask<T>(Pos,Width); }$/;"	f	class:BitString
 operator <	./src/generic/RegionSet.h	/^  bool operator<(const Region& r1) const { return end < r1.start; }$/;"	f	struct:Region
+operator <	./src/kernel/Tree.cc	/^		bool operator < (ThreadNode other) const {$/;"	f	class:ThreadNode
 operator <<	./src/generic/basics.h	/^inline ostream& operator<<(ostream &os, const FmtHex& h) {$/;"	f
 operator <<	./src/kernel/AddressSpace.h	/^inline ostream& operator<<(ostream& os, const AddressSpace& as) {$/;"	f
 operator <<	./src/kernel/FrameManager.cc	/^ostream& operator<<(ostream& os, const FrameManager& fm) {$/;"	f
 operator <<	./src/machine/Paging.cc	/^ostream& operator<<(ostream& os, const Paging::FmtPE& f) {$/;"	f
 operator <<	./src/machine/Paging.cc	/^ostream& operator<<(ostream& os, const Paging::PageFaultFlags& f) {$/;"	f
+operator ==	./src/kernel/Tree.cc	/^		bool operator == (ThreadNode other) const {$/;"	f	class:ThreadNode
+operator >	./src/kernel/Tree.cc	/^		bool operator > (ThreadNode other) const {$/;"	f	class:ThreadNode
 operator []	./src/generic/Buffers.h	/^  Element& operator[] (size_t i) { return buffer[i]; }$/;"	f	class:RuntimeArray
 operator []	./src/generic/Buffers.h	/^  const Element& operator[] (size_t i) const { return buffer[i]; }$/;"	f	class:RuntimeArray
 operator ptr_t	./src/machine/Descriptors.h	/^  operator ptr_t() { return ptr_t(flags); }$/;"	f	struct:SelectorErrorFlags
@@ -11204,6 +11233,7 @@ p	./src/extern/lwip/lwip/src/include/lwip/netbuf.h	/^  struct pbuf *p, *ptr;$/;"
 p	./src/extern/lwip/lwip/src/include/lwip/tcp_impl.h	/^  struct pbuf *p;          \/* buffer containing data + TCP header *\/$/;"	m	struct:tcp_seg	typeref:struct:tcp_seg::pbuf
 p	./src/extern/lwip/lwip/src/include/lwip/tcpip.h	/^      struct pbuf *p;$/;"	m	struct:tcpip_msg::__anon22::__anon23	typeref:struct:tcpip_msg::__anon22::__anon23::pbuf
 p	./src/extern/lwip/lwip/src/include/netif/etharp.h	/^  struct pbuf *p;$/;"	m	struct:etharp_q_entry	typeref:struct:etharp_q_entry::pbuf
+p	./src/kernel/Tree.cc	/^        T item; node *p, *l, *r;$/;"	m	struct:Tree::node	file:
 p_out	./src/extern/lwip/lwip/src/include/lwip/dhcp.h	/^  struct pbuf *p_out; \/* pbuf of outcoming msg *\/$/;"	m	struct:dhcp	typeref:struct:dhcp::pbuf
 padding	./src/extern/cdi/e1000/device.h	/^    uint16_t            padding;$/;"	m	struct:e1000_rx_descriptor
 padding2	./src/extern/cdi/e1000/device.h	/^    uint16_t            padding2;$/;"	m	struct:e1000_rx_descriptor
@@ -11223,6 +11253,7 @@ pagetable	./src/kernel/AddressSpace.h	/^  paddr pagetable;         \/\/ root pag
 pagetablebits	./src/machine/Memory.h	/^static const size_t pagetablebits    = 9;$/;"	v
 pagetableentries	./src/machine/Memory.h	/^static const size_t pagetableentries = 1 << pagetablebits;$/;"	v
 pagetablepl	./src/machine/Memory.h	/^static const size_t pagetablepl      = 1;$/;"	v
+parent_leg	./src/kernel/Tree.cc	/^    node*& parent_leg(node *n) {$/;"	f	class:Tree	file:
 parse	./src/gdb/Gdb.cc	/^  void parse(char* in, char* out) {$/;"	f	struct:VCont
 part	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint32_t part;$/;"	m	struct:multiboot_tag_bootdev
 partner	./src/runtime/Scheduler.h	/^  Scheduler* partner;$/;"	m	class:Scheduler
@@ -11273,6 +11304,7 @@ poolnr	./src/extern/lwip/lwip/src/include/lwip/memp.h	/^   memp_t poolnr;$/;"	m	
 pop	./src/generic/Buffers.h	/^  void pop() {$/;"	f	class:RingBuffer
 pop	./src/generic/EmbeddedContainers.h	/^  T* pop(size_t count = 1) {$/;"	f	class:EmbeddedQueue
 pop	./src/generic/EmbeddedContainers.h	/^  T* pop(size_t count = 1) {$/;"	f	class:EmbeddedStack
+popMinNode	./src/kernel/Tree.cc	/^    T* popMinNode() {$/;"	f	class:Tree
 pop_back	./src/generic/EmbeddedContainers.h	/^  T* pop_back()  { GENASSERT1(!empty(), this); return remove(*back()); }$/;"	f	class:EmbeddedList
 pop_front	./src/generic/EmbeddedContainers.h	/^  T* pop_front() { GENASSERT1(!empty(), this); return remove(*front()); }$/;"	f	class:EmbeddedList
 popcount	./src/generic/bitmanip.h	/^static inline constexpr int popcount(T x) {$/;"	f
@@ -11393,6 +11425,7 @@ queue	./src/runtime/BlockingSync.cc	/^multimap<mword,Thread*> Timeout::queue;$/;
 queue	./src/runtime/BlockingSync.h	/^  EmbeddedList<Thread> queue;$/;"	m	class:BlockingQueue
 queue	./src/runtime/BlockingSync.h	/^  static multimap<mword,Thread*> queue;$/;"	m	class:Timeout
 r	./src/extern/lwip/lwip/src/include/lwip/api_msg.h	/^    } r;$/;"	m	union:api_msg_msg::__anon32	typeref:struct:api_msg_msg::__anon32::__anon37
+r	./src/kernel/Tree.cc	/^        T item; node *p, *l, *r;$/;"	m	struct:Tree::node	file:
 rCount	./src/main/Experiments.cc	/^static mword rCount = 0;$/;"	m	namespace:IPI_Experiment	file:
 raw	./src/extern/lwip/lwip/src/include/lwip/api.h	/^    struct raw_pcb *raw;$/;"	m	union:netconn::__anon29	typeref:struct:netconn::__anon29::raw_pcb
 raw_init	./src/extern/lwip/lwip/src/include/lwip/raw.h	90;"	d
@@ -11423,6 +11456,7 @@ readCR4	./src/machine/CPU.h	/^  static inline mword readCR4() {$/;"	f	namespace:
 readCR8	./src/machine/CPU.h	/^  static inline mword readCR8() {$/;"	f	namespace:CPU
 readConfig	./src/devices/PCI.h	/^  static inline uint32_t readConfig(const PCIDevice& pd, uint8_t reg) {$/;"	f	namespace:PCI
 readConfig	./src/devices/PCI.h	/^  static inline uint32_t readConfig(uint8_t bus, uint8_t dev, uint8_t func, uint8_t reg) {$/;"	f	namespace:PCI
+readMinNode	./src/kernel/Tree.cc	/^    T* readMinNode() const {$/;"	f	class:Tree
 readModules	./src/kernel/Multiboot.cc	/^void Multiboot::readModules(vaddr disp) {$/;"	f	class:Multiboot
 readPMC	./src/machine/CPU.h	/^  static inline uint64_t readPMC(uint32_t index) {$/;"	f	namespace:MSR
 readRBP	./src/machine/CPU.h	/^  __finline static inline mword readRBP() {$/;"	f	namespace:CPU
@@ -11431,9 +11465,10 @@ readRSP	./src/machine/CPU.h	/^  __finline static inline mword readRSP() {$/;"	f	
 readTSC	./src/machine/CPU.h	/^  static inline mword readTSC() {$/;"	f	namespace:CPU
 readpmc	./src/machine/CPU.h	/^  static inline uint64_t readpmc( Register msr ) {$/;"	f	namespace:MSR
 readpmc	./src/machine/CPU.h	/^  static inline void readpmc( Register msr, uint32_t& lo, uint32_t& hi ) {$/;"	f	namespace:MSR
-readyCount	./src/runtime/Scheduler.h	/^  volatile mword readyCount; $/;"	m	class:Scheduler
+readyCount	./src/runtime/Scheduler.h	/^  volatile mword readyCount;$/;"	m	class:Scheduler
 readyLock	./src/runtime/Scheduler.h	/^  BasicLock readyLock;$/;"	m	class:Scheduler
 readyQueue	./src/runtime/Scheduler.h	/^  EmbeddedList<Thread> readyQueue[maxPriority];$/;"	m	class:Scheduler
+readyTree	./src/runtime/Scheduler.h	/^  Tree<ThreadNode> *readyTree;$/;"	m	class:Scheduler
 realloc	./src/kernel/syscalls.cc	/^extern "C" void* realloc(void* ptr, size_t size) {$/;"	f
 rebind	./src/kernel/FrameManager.h	/^    template<typename U> struct rebind { typedef MapAllocator<U> other; };$/;"	s	class:FrameManager::MapAllocator
 rebind	./src/kernel/MemoryManager.h	/^  template<typename U> struct rebind { typedef KernelAllocator<U> other; };$/;"	s	class:KernelAllocator
@@ -11560,7 +11595,11 @@ rhl	./src/extern/lwip/lwip/src/include/lwip/snmp_msg.h	/^  struct snmp_resp_head
 rid	./src/extern/lwip/lwip/src/include/lwip/snmp_msg.h	/^  s32_t rid;$/;"	m	struct:snmp_msg_pstat
 ridlen	./src/extern/lwip/lwip/src/include/lwip/snmp_msg.h	/^  u16_t ridlen;$/;"	m	struct:snmp_resp_header_lengths
 ridlenlen	./src/extern/lwip/lwip/src/include/lwip/snmp_msg.h	/^  u8_t ridlenlen;$/;"	m	struct:snmp_resp_header_lengths
+right_heavy	./src/kernel/Tree.cc	/^    inline bool right_heavy(node *n) const {$/;"	f	class:Tree	file:
+right_rotate	./src/kernel/Tree.cc	/^    void right_rotate(node *n) { rotate(l, r); }$/;"	f	class:Tree	file:
 rip	./src/machine/Machine.cc	/^  constexpr mword* rip()    const { return frame;   }$/;"	f	class:IsrEntry	file:
+root	./src/kernel/Tree.cc	/^    node *root;$/;"	m	class:Tree	file:
+rotate	./src/kernel/Tree.cc	129;"	d	file:
 rrPreemptIPI	./src/machine/Machine.cc	/^void Machine::rrPreemptIPI(mword tick) {$/;"	f	class:Machine
 rsdp	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint8_t rsdp[0];$/;"	m	struct:multiboot_tag_new_acpi
 rsdp	./src/extern/multiboot/multiboot2.h	/^  multiboot_uint8_t rsdp[0];$/;"	m	struct:multiboot_tag_old_acpi
@@ -11614,6 +11653,9 @@ sc_service_name	./src/extern/lwip/lwip/src/include/netif/ppp_oe.h	/^  char *sc_s
 sc_session	./src/extern/lwip/lwip/src/include/netif/ppp_oe.h	/^  u16_t sc_session;            \/* PPPoE session id *\/$/;"	m	struct:pppoe_softc
 sc_state	./src/extern/lwip/lwip/src/include/netif/ppp_oe.h	/^  int sc_state;                \/* discovery phase or session connected *\/$/;"	m	struct:pppoe_softc
 scanCodeSet	./src/devices/Keyboard.cc	/^static int scanCodeSet = 2;$/;"	v	file:
+schedInt	./src/runtime/Scheduler.cc	/^void Scheduler::schedInt(){\/*$/;"	f	class:Scheduler
+schedMinGranularity	./src/runtime/Scheduler.cc	/^unsigned int Scheduler::schedMinGranularity;$/;"	m	class:Scheduler	file:
+schedMinGranularity	./src/runtime/Scheduler.h	/^  static unsigned int schedMinGranularity;$/;"	m	class:Scheduler
 scheduler	./src/machine/Processor.h	/^  Scheduler*    scheduler;$/;"	m	class:Processor
 schedulerTable	./src/machine/Machine.cc	/^static Scheduler* schedulerTable = nullptr;$/;"	v	file:
 scroll	./src/devices/Screen.h	/^	static void scroll( int offset, int length ) {$/;"	f	class:Screen
@@ -11677,12 +11719,14 @@ setAffinity	./src/runtime/Thread.h	/^  Thread* setAffinity(Scheduler* s) { affin
 setCurrAS	./src/machine/Processor.h	/^  static void setCurrAS(AddressSpace* x) {$/;"	f	class:LocalProcessor
 setCurrThread	./src/machine/Processor.h	/^  static void setCurrThread(Thread* x) {$/;"	f	class:LocalProcessor
 setCurrThread	./src/runtime/Runtime.h	/^  static void setCurrThread(Thread* t) { LocalProcessor::setCurrThread(t); }$/;"	f	namespace:Runtime
+setDefaultEpoch	./src/runtime/Scheduler.cc	/^void Scheduler::setDefaultEpoch(unsigned int toSet)    {defaultEpochLength = toSet;}$/;"	f	class:Scheduler
 setFlatMode	./src/machine/APIC.h	/^  void setFlatMode() {$/;"	f	class:APIC
 setGdbAffinity	./src/gdb/Gdb.cc	/^static void setGdbAffinity() {$/;"	f	file:
 setIrq	./src/devices/PCI.h	/^  void setIrq(uint8_t i) { irq = i; }$/;"	f	class:PCIDevice
 setKernPI	./src/machine/Processor.h	/^  static void setKernPI(PageInvalidation* x) {$/;"	f	class:LocalProcessor
 setKernelStack	./src/machine/Processor.h	/^  static void setKernelStack() {$/;"	f	class:LocalProcessor
 setLogicalDest	./src/machine/APIC.h	/^  void setLogicalDest(uint8_t group) {$/;"	f	class:APIC
+setMinGran	./src/runtime/Scheduler.cc	/^void Scheduler::setMinGran(unsigned int toSet)   {schedMinGranularity = toSet;}$/;"	f	class:Scheduler
 setPE	./src/machine/Paging.h	/^  static void setPE(PageEntry& pe, const PageEntry& newpe) { pe = newpe; }$/;"	f	class:Paging
 setPartner	./src/runtime/Scheduler.h	/^  void setPartner(Scheduler& s) { partner = &s; }$/;"	f	class:Scheduler
 setPriority	./src/runtime/Thread.h	/^  Thread* setPriority(mword p)      { priority = p; return this; }$/;"	f	class:Thread
@@ -11761,6 +11805,7 @@ size	./src/generic/Bitmap.h	/^  static constexpr size_t size( size_t bitcount ) 
 size	./src/generic/Buffers.h	/^  size_t size() const { return count; }$/;"	f	class:RingBuffer
 size	./src/generic/ManagedArray.h	/^  size_t size()            const { return index - freecount; }$/;"	f	class:ManagedArray
 size	./src/kernel/AddressSpace.h	/^  size_t             size;$/;"	m	struct:PageInvalidation
+size	./src/kernel/Tree.cc	/^        int size, height;$/;"	m	struct:Tree::node	file:
 size	./src/runtime/SyncQueues.h	/^  mword size() { return buffer.size(); }$/;"	f	class:MessageQueue
 size	./src/world/Access.h	/^  size_t size;$/;"	m	struct:RamFile
 sizeof	./src/machine/Machine.cc	/^static_assert(sizeof(InterruptDescriptor) == 2 * sizeof(mword), "sizeof(InterruptDescriptor) != 2 * sizeof(mword)" );$/;"	v
@@ -12008,6 +12053,7 @@ strplenlen	./src/extern/lwip/lwip/src/include/lwip/snmp_msg.h	/^  u8_t strplenle
 strtoul	./src/extern/acpica/source/include/platform/aclinux.h	195;"	d
 subclass_id	./src/extern/cdi/include/cdi/pci.h	/^    uint8_t     subclass_id;$/;"	m	struct:cdi_pci_device
 subnet_mask_given	./src/extern/lwip/lwip/src/include/lwip/dhcp.h	/^  u8_t subnet_mask_given;$/;"	m	struct:dhcp
+successor	./src/kernel/Tree.cc	/^    node* successor(node *n) const {$/;"	f	class:Tree
 suite_getter_fn	./src/extern/lwip/lwip/test/unit/lwip_check.h	/^typedef Suite* (suite_getter_fn)(void);$/;"	t
 suspend	./src/runtime/BlockingSync.h	/^  bool suspend(EmbeddedList<Thread>& queue) {$/;"	f	class:BlockingInfo
 suspend	./src/runtime/BlockingSync.h	/^  bool suspend(EmbeddedList<Thread>& queue, mword timeout) {$/;"	f	class:TimeoutBlockingInfo
@@ -12089,6 +12135,7 @@ syscall_t	./src/kernel/syscalls.cc	/^typedef ssize_t (*syscall_t)(mword a1, mwor
 syscalls	./src/kernel/syscalls.cc	/^static const syscall_t syscalls[] = {$/;"	v	file:
 sysfunc	./src/user/systest.cc	/^static int sysfunc() {$/;"	f	file:
 systemID	./src/machine/Processor.h	/^  mword         systemID;$/;"	m	class:Processor
+sz	./src/kernel/Tree.cc	/^    inline int sz(node *n) const { return n ? n->size : 0; }$/;"	f	class:Tree	file:
 t	./src/machine/Paging.h	/^    PageEntry t;$/;"	m	struct:Paging::FmtPE
 t	./src/machine/Paging.h	/^    uint64_t t;$/;"	m	struct:Paging::PageFaultFlags
 t1_timeout	./src/extern/lwip/lwip/src/include/lwip/dhcp.h	/^  u16_t t1_timeout;  \/* #ticks with period DHCP_COARSE_TIMER_SECS for renewal time *\/$/;"	m	struct:dhcp
@@ -12155,6 +12202,7 @@ test_tcp_txcounters	./src/extern/lwip/lwip/test/unit/tcp/tcp_helper.h	/^struct t
 testcount	./src/main/LockTest.cc	/^static const int testcount  = 5000;$/;"	v	file:
 testfree	./src/machine/Paging.h	/^  static size_t testfree( vaddr vma ) { return test(vma, Available|Unmapped); }$/;"	f	class:Paging
 testused	./src/machine/Paging.h	/^  static size_t testused( vaddr vma ) { return test(vma, Reserved|Mapped); }$/;"	f	class:Paging
+th	./src/kernel/Tree.cc	/^	Thread *th;$/;"	m	class:ThreadNode	file:
 thl	./src/extern/lwip/lwip/src/include/lwip/snmp_msg.h	/^  struct snmp_trap_header_lengths thl;$/;"	m	struct:snmp_msg_trap	typeref:struct:snmp_msg_trap::snmp_trap_header_lengths
 threadLock	./src/kernel/Process.h	/^  SpinLock threadLock;$/;"	m	class:Process
 threadStore	./src/kernel/Process.h	/^  ManagedArray<UserThread*,KernelAllocator> threadStore;$/;"	m	class:Process
@@ -12180,6 +12228,7 @@ tipiReceiver	./src/machine/Machine.cc	/^static void tipiReceiver() {$/;"	f	file:
 tmo	./src/extern/lwip/lwip/src/include/lwip/tcpip.h	/^    } tmo;$/;"	m	union:tcpip_msg::__anon22	typeref:struct:tcpip_msg::__anon22::__anon25
 tmr	./src/extern/lwip/lwip/src/include/lwip/tcp.h	/^  u32_t tmr;$/;"	m	struct:tcp_pcb
 toaddr	./src/extern/lwip/lwip/src/include/lwip/netbuf.h	/^  ip_addr_t toaddr;$/;"	m	struct:netbuf
+too_heavy	./src/kernel/Tree.cc	/^    inline bool too_heavy(node *n) const {$/;"	f	class:Tree	file:
 topPriority	./src/runtime/Runtime.h	/^static const mword  topPriority = 0;$/;"	v
 topaddr	./src/machine/Memory.h	/^static const mword topaddr = limit<mword>();$/;"	v
 topidx	./src/kernel/MemoryManager.h	/^  static const size_t topidx = 7;$/;"	m	class:MemoryManager
@@ -12340,6 +12389,7 @@ usleep	./src/ulib/libKOS.cc	/^extern "C" int usleep(useconds_t usecs) {$/;"	f
 usmblks	./src/extern/dlmalloc/malloc.h	/^  MALLINFO_FIELD_TYPE usmblks;  \/* maximum total allocated space *\/$/;"	m	struct:mallinfo
 v	./src/extern/lwip/lwip/src/include/ipv6/lwip/ip.h	/^  u8_t tclass1:4, v:4;$/;"	m	struct:ip_hdr
 vCont	./src/gdb/Gdb.cc	/^} vCont;$/;"	v	typeref:struct:VCont
+vRuntime	./src/runtime/Thread.h	/^  mword vRuntime = 0;$/;"	m	class:Thread
 v_len	./src/extern/lwip/lwip/src/include/lwip/snmp_structs.h	/^  u16_t v_len;$/;"	m	struct:obj_def
 va_arg	./src/extern/acpica/source/include/platform/acenv.h	475;"	d
 va_end	./src/extern/acpica/source/include/platform/acenv.h	476;"	d
