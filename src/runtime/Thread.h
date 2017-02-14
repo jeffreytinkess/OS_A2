@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 #ifndef _Thread_h_
 #define _Thread_h_ 1
 
-#include "generic/EmbeddedContainers.h" 
+#include "generic/EmbeddedContainers.h"
 #include "runtime/Runtime.h"
 
 class Scheduler;
@@ -31,7 +31,7 @@ class Thread : public EmbeddedList<Thread>::Link {
   vaddr stackBottom;        // bottom of allocated memory for thread/stack
   size_t stackSize;         // size of allocated memory
 
-  mword priority;           // scheduling priority
+
   bool affinity;            // stick with scheduler
   Scheduler* nextScheduler; // resume on same core (for now)
 
@@ -54,6 +54,8 @@ protected:
   static Thread* create(vaddr mem, size_t ss);
 
 public:
+  mword priority;           // scheduling priority
+  mword vRuntime = 0;
   static Thread* create(size_t ss);
   static Thread* create();
   void destroy();

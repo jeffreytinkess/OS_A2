@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 #include "generic/EmbeddedContainers.h"
 #include "runtime/Runtime.h"
+#include "kernel/Tree.cc"
 
 class Thread;
 
@@ -28,16 +29,20 @@ class Scheduler {
 
   // very simple N-class prio scheduling
   BasicLock readyLock;
-  volatile mword readyCount; 
-  EmbeddedList<Thread> readyQueue[maxPriority];
+  volatile mword readyCount;
+  //EmbeddedList<Thread> readyQueue[maxPriority];
   volatile mword preemption;
   volatile mword resumption;
+  Tree<ThreadNode> *readyTree;
+
+  static unsigned int schedMinGranularity;
+  static unsigned int defaultEpochLength;
 
   Scheduler* partner;
 
   template<typename... Args>
   inline void switchThread(Scheduler* target, Args&... a);
-
+  mword minvRuntime;
   inline void enqueue(Thread& t);
 
   Scheduler(const Scheduler&) = delete;                  // no copy
@@ -51,6 +56,19 @@ public:
   void suspend(BasicLock& lk);
   void suspend(BasicLock& lk1, BasicLock& lk2);
   void terminate() __noreturn;
+  void schedInt();
+
+
+  //Assignment 2 start
+
+  static void setMinGran(unsigned int toSet);
+  static void setDefaultEpoch(unsigned int toSet);
+
+  static unsigned int getMinGran();
+  static unsigned int getDefaultEpoch();
+  mword getminvRuntime() {return minvRuntime;};
+
+  //Assignment 2 end
 };
 
 #endif /* _Scheduler_h_ */
