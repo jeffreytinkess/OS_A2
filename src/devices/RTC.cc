@@ -37,9 +37,7 @@ void RTC::init() { // see http://wiki.osdev.org/RTC
   int freq = 32768 >> (rateVar - 1);
 
   KOUT::outl("Frequency is: ", freq, " Hz");
-  for (int i = 0; i < 1000000; i++){
-
-  }
+  
 
   CPU::out8(0x70, 0x0B);             // select Status Register B
   prev = CPU::in8(0x71);             // read current value
@@ -49,4 +47,5 @@ void RTC::init() { // see http://wiki.osdev.org/RTC
   CPU::out8(0x70, CPU::in8(0x70) & 0x7F); // enable NMI
 
   staticInterruptHandler();     // read RTC once -> needed to get things going
+  KOUT::outl("test from rtc");
 }

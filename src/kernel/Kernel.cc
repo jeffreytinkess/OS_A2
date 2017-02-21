@@ -21,7 +21,6 @@
 #include "world/Access.h"
 #include "machine/Machine.h"
 #include "devices/Keyboard.h"
-
 #include "main/UserMain.h"
 
 AddressSpace kernelSpace(true); // AddressSpace.h
@@ -39,6 +38,7 @@ static void keybLoop() {
 #endif
 
 void kosMain() {
+
   KOUT::outl("Welcome to KOS!", kendl);
   auto iter = kernelFS.find("motb");
   if (iter == kernelFS.end()) {
@@ -73,19 +73,18 @@ void kosMain() {
        parseValue *= 10;
        parseValue += charVal;
 
-       //debug
-       //com eback with GDB to check if values are correct
      } else {
        temp = false;
        //parse string to integer
        if (varEnum == 1){
          //setting schedMinGranularity
-         Scheduler::setMinGran(parseValue);
+        // Scheduler::setMinGran(parseValue);
          varEnum++;
          parseValue = 0;
        } else if (varEnum == 2){
          //setting epoch length
-         Scheduler::setDefaultEpoch(parseValue);
+         
+      //   Scheduler::setDefaultEpoch(parseValue);
          varEnum++;
          parseValue = 0;
        } else {

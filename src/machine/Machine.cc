@@ -344,6 +344,8 @@ void Machine::initBSP2() {
   // start up APs one by one (on boot stack): APs go into long mode and halt
   StdOut.print("AP init (", FmtHex(BOOTAP16 / 0x1000), "):");
   for (mword idx = 0; idx < processorCount; idx += 1) {
+
+  KOUT::outl("breakpoint",idx);
     if (idx != bspIndex) {
       apIndex = idx;
       for (;;) {
@@ -351,8 +353,11 @@ void Machine::initBSP2() {
         StdOut.print(' ', ai);
         MappedAPIC()->sendInitIPI(ai);
         StdOut.print('I');
+        KOUT::outl("breaks after here");
         Clock::wait(100);                // wait for HW init
+        KOUT::outl("breaks brfore here");
         MappedAPIC()->sendInitDeassertIPI(ai);
+
         StdOut.print('D');
         Clock::wait(100);                // wait for HW init
         for (int i = 0; i < 10; i += 1) {
@@ -369,10 +374,10 @@ apDone:
     }
   }
   StdOut.print(kendl);
-
   DBG::outl(DBG::Boot, "Building kernel filesystem...");
   // initialize kernel file system with boot modules
   Multiboot::readModules(kernelBase);
+
 
   // more info from ACPI; could find IOAPIC interrupt pins for PCI devices
   initACPI2(); // needs "current thread"
@@ -397,6 +402,7 @@ apDone:
   // start irq thread after cdi init -> avoid interference from device irqs
   DBG::outl(DBG::Boot, "Creating IRQ thread...");
   Thread::create()->setPriority(topPriority)->setAffinity(processorTable[0].scheduler)->start((ptr_t)asyncIrqLoop);
+
 }
 
 void Machine::bootCleanup() {
@@ -433,10 +439,15 @@ void Machine::bootCleanup() {
 }
 
 void Machine::bootMain() {
+  KOUT::outl("test");
   Machine::initBSP2();
+  KOUT::outl("line 1");
   Machine::bootCleanup();
+  KOUT::outl("line 2");
   Thread::create()->start((ptr_t)kosMain);
+  KOUT::outl("line 3");
   LocalProcessor::getScheduler()->terminate(); // explicitly terminate boot thread
+  KOUT::outl("line 4");
 }
 
 void Machine::setAffinity(Thread& t, mword idx) {
@@ -1018,26 +1029,8 @@ extern "C" void irq_handler_0xf8(mword* isrFrame) { // RTC interrupt
   if (!irqMask.empty()) asyncIrqSem.V(); // check interrupts
   Timeout::checkExpiry(Clock::now());    // check timeout queue
   Machine::rrPreemptIPI(rtc.tick());     // simulate APIC timer interrupts
-/*
-  //Assignment 2 code start
-
-  //For each processor, get a reference to its scheduler and call function to check scheduling
-  mword numProc = Machine::getProcessorCount();
-  for (int i = 0; i < numProc; i++){
-    //get processor i scheduler
-    Scheduler* sched = Machine::getScheduler(i);
-    //tell that scheduler "check ready queue"
-    //sched->schedInt();
-  }
-
-  //Assignment 2 code end*/
 }
 
-//Assignment 2 function, copied from lab slides
-Scheduler* Machine::getScheduler(mword idx){
-  KASSERT1(idx < processorCount, idx);
-  return processorTable[idx].scheduler;
-}
 extern "C" void irq_handler_0xf9(mword* isrFrame) { // spuriously seen
   IsrEntry<true> ie(isrFrame);
   KERR::out1(" IRQ-F9");

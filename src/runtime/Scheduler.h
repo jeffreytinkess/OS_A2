@@ -56,7 +56,7 @@ public:
   void suspend(BasicLock& lk);
   void suspend(BasicLock& lk1, BasicLock& lk2);
   void terminate() __noreturn;
-  void schedInt();
+
 
 
   //Assignment 2 start

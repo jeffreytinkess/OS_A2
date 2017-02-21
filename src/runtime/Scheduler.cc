@@ -33,15 +33,19 @@ Scheduler::Scheduler() : readyCount(0), preemption(0), resumption(0), partner(th
   //Assignment 2 variables init
   readyTree = new Tree<ThreadNode>();
   readyTree->insert(idleThread);
+  minvRuntime = 0;
   //unsigned int schedMinGranularity = 4;
   //unsigned int defaultEpochLength = 20;
-  //Scheduler::setMinGran(4);
-  //Scheduler::setDefaultEpoch(20);
+  Scheduler::setMinGran(4);
+  Scheduler::setDefaultEpoch(20);
 }
 
 //Assignment 2 start
 
-void Scheduler::setMinGran(unsigned int toSet)   {schedMinGranularity = toSet;}
+void Scheduler::setMinGran(unsigned int toSet)   {
+  schedMinGranularity = toSet;
+  //KOUT::outl("minGranularity = ",toSet);
+  }
 void Scheduler::setDefaultEpoch(unsigned int toSet)    {defaultEpochLength = toSet;}
 
 unsigned int Scheduler::getMinGran()   {return schedMinGranularity;}
@@ -61,7 +65,7 @@ static inline void unlock(BasicLock &l, Args&... a) {
 // very simple N-class prio scheduling!
 template<typename... Args>
 inline void Scheduler::switchThread(Scheduler* target, Args&... a) {
-  KOUT::outl("calling switch thread");
+  //KOUT::outl("calling switch thread");
   preemption += 1;
   CHECK_LOCK_MIN(sizeof...(Args));
   Thread* nextThread;
@@ -128,13 +132,12 @@ extern "C" void invokeThread(Thread* prevThread, Runtime::MemoryContext* ctx, fu
 }
 
 void Scheduler::enqueue(Thread& t) {
-  KOUT::outl("calling enqueue method");
+  //KOUT::outl("calling enqueue method");
   GENASSERT1(t.priority < maxPriority, t.priority);
   readyLock.acquire();
   //readyQueue[t.priority].push_back(t);
   //A2 code
   Thread* temp = &t;
-  temp->vRuntime = minvRuntime;
   readyTree->insert(temp);
   //A2 code end
   bool wake = (readyCount == 0);
@@ -149,38 +152,23 @@ void Scheduler::enqueue(Thread& t) {
 
 void Scheduler::resume(Thread& t) {
   KOUT::outl("calling resume method");
+  Thread* temp = &t;
+
+
+  temp->vRuntime += schedMinGranularity;
+  //temp->vRuntime += minvRuntime;
   GENASSERT1(&t != Runtime::getCurrThread(), Runtime::getCurrThread());
   if (t.nextScheduler) t.nextScheduler->enqueue(t);
   else Runtime::getScheduler()->enqueue(t);
+  KOUT::outl("end resume thread");
 }
 
 void Scheduler::preempt() {               // IRQs disabled, lock count inflated
-  KOUT::outl("calling preempt method");
+//  KOUT::outl("calling preempt method");
   Thread* currThread = Runtime::getCurrThread();
   mword curPriority = Runtime::getCurrThread()->priority;
 #if TESTING_NEVER_MIGRATE
-//New A2 code
-/*
-  currThread->vRuntime += curPriority;
-  mword curRunTime = currThread->vRuntime;
-    if (curRunTime >= Scheduler::getMinGran()){
-      //check if leftmost vruntime is less than curRunTime
-      if (readyTree->empty()){
-        KOUT::outl("tree was empty");
-        return;
-      }
-      KOUT::outl("tree was NOT empty");
-      Thread* t = readyTree->readMinNode()->th;
-      mword leftTime = t->vRuntime;
-      if (leftTime < curRunTime){
-        //Put current thread back in tree, get left node, run left node
-        //readyTree->insert(currThread);
-        //Thread* newThread = readyTree->popMinNode()->th;
-        //minvRuntime = newThread->vRuntime;
-        switchThread(target);
 
-      }
-    }*/
 #else /* migration enabled */
   Scheduler* target = Runtime::getCurrThread()->getAffinity();
 #if TESTING_ALWAYS_MIGRATE
@@ -191,93 +179,54 @@ void Scheduler::preempt() {               // IRQs disabled, lock count inflated
 //New A2 code
 //
 //DEBUG
-  KOUT::outl("reached A2 code");
+//  KOUT::outl("reached A2 code");
   currThread->vRuntime += curPriority;
   mword curRunTime = currThread->vRuntime;
-  KOUT::outl("breakpoint 1");
+  //KOUT::outl("breakpoint 1");
   if (curRunTime >= Scheduler::getMinGran()){
       //check if leftmost vruntime is less than curRunTime
-    /*  if (readyTree->empty()){
-        //KOUT::outl("tree was empty");
-        return;
-      }*/
-      //KOUT::outl("tree was NOT empty");
+
       Thread* t = readyTree->readMinNode()->th;
-      KOUT::outl("breakpoint 2");
+      //KOUT::outl("breakpoint 2");
       mword leftTime = t->vRuntime;
       if (leftTime < curRunTime){
-        KOUT::outl("breakpoint 3");
+      //  KOUT::outl("breakpoint 3");
         minvRuntime = curRunTime;
         switchThread(target);
 
       }
     }
 #endif
-/*
-//New A2 code
-  //Thread* currThread = Runtime::getCurrThread();
-  //Modify to use priority
-  mword curPriority = Runtime::getCurrThread()->priority;
-  currThread->vRuntime += curPriority;
-  mword curRunTime = currThread->vRuntime;
-    if (curRunTime >= Scheduler::getMinGran()){
-      //check if leftmost vruntime is less than curRunTime
-      if (readyTree->empty()){
-        KOUT::outl("tree was empty");
-        return;
-      }
-      KOUT::outl("tree was NOT empty");
-      Thread* t = readyTree->readMinNode()->th;
-      mword leftTime = t->vRuntime;
-      if (leftTime < curRunTime){
-        //Put current thread back in tree, get left node, run left node
-        readyTree->insert(currThread);
-        Thread* newThread = readyTree->popMinNode()->th;
-        minvRuntime = newThread->vRuntime;
-        switchThread(target);
 
-      }
-    }*/
 }
 
-void Scheduler::schedInt(){/*
-  //Assignment 2 functions
-  Thread* curThread = Runtime::getCurrThread();
-  //Modify to use priority
-  mword curPriority = Runtime::getCurrThread()->priority;
-  curThread->vRuntime += curPriority;
-  mword curRunTime = curThread->vRuntime;
-  if (curRunTime >= Scheduler::getMinGran()){
-    //check if leftmost vruntime is less than curRunTime
-    if (readyTree->empty()){
-      return;
-    }
-    Thread* t = readyTree->readMinNode()->th;
-    mword leftTime = t->vRuntime;
-    if (leftTime < curRunTime){
-      //Put current thread back in tree, get left node, run left node
-      readyTree->insert(curThread);
-      Thread* newThread = readyTree->popMinNode();
-      minvRuntime = newThread->vRuntime;
-      //Schedule newThread to run
-    }
-  }
-*/
-}
+
 void Scheduler::suspend(BasicLock& lk) {
-  KOUT::outl("calling suspend method 1");
+  mword temp = Runtime::getCurrThread()->vRuntime;
+  if (temp < schedMinGranularity){
+    Runtime::getCurrThread()->vRuntime = 0;
+  } else {
+    Runtime::getCurrThread()->vRuntime = temp - schedMinGranularity;
+  }
+
   Runtime::FakeLock fl;
   switchThread(nullptr, lk);
 }
 
 void Scheduler::suspend(BasicLock& lk1, BasicLock& lk2) {
-  KOUT::outl("calling suspend method 2");
+  mword temp = Runtime::getCurrThread()->vRuntime;
+  if (temp < schedMinGranularity){
+    Runtime::getCurrThread()->vRuntime = 0;
+  } else {
+    Runtime::getCurrThread()->vRuntime = temp - schedMinGranularity;
+  }
+
   Runtime::FakeLock fl;
   switchThread(nullptr, lk1, lk2);
 }
 
 void Scheduler::terminate() {
-  KOUT::outl("calling terminate method");
+  //KOUT::outl("calling terminate method");
   Runtime::RealLock rl;
   Thread* thr = Runtime::getCurrThread();
   GENASSERT1(thr->state != Thread::Blocked, thr->state);
