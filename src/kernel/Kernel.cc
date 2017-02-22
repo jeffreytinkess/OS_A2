@@ -78,13 +78,13 @@ void kosMain() {
        //parse string to integer
        if (varEnum == 1){
          //setting schedMinGranularity
-        // Scheduler::setMinGran(parseValue);
+         Scheduler::setMinGran(parseValue);
          varEnum++;
          parseValue = 0;
        } else if (varEnum == 2){
          //setting epoch length
-         
-      //   Scheduler::setDefaultEpoch(parseValue);
+
+         Scheduler::setDefaultEpoch(parseValue);
          varEnum++;
          parseValue = 0;
        } else {

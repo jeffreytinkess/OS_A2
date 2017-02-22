@@ -339,13 +339,11 @@ void Machine::initBSP2() {
   tipiHandler = tipiReceiver;
   sendIPI(bspIndex, APIC::TestIPI);
   while (!tipiTest) CPU::Pause();
-
   // NOTE: could use broadcast and ticket lock sequencing
   // start up APs one by one (on boot stack): APs go into long mode and halt
   StdOut.print("AP init (", FmtHex(BOOTAP16 / 0x1000), "):");
   for (mword idx = 0; idx < processorCount; idx += 1) {
 
-  KOUT::outl("breakpoint",idx);
     if (idx != bspIndex) {
       apIndex = idx;
       for (;;) {
@@ -353,9 +351,7 @@ void Machine::initBSP2() {
         StdOut.print(' ', ai);
         MappedAPIC()->sendInitIPI(ai);
         StdOut.print('I');
-        KOUT::outl("breaks after here");
         Clock::wait(100);                // wait for HW init
-        KOUT::outl("breaks brfore here");
         MappedAPIC()->sendInitDeassertIPI(ai);
 
         StdOut.print('D');
@@ -396,9 +392,12 @@ apDone:
   lwip_init_tcpip();
 
   DBG::outl(DBG::Boot, "Starting CDI devices...");
+
+              KOUT::outl("breakpoint in machine");
   // find and install CDI drivers for PCI devices - need interrupts for sleep
   for (const PCIDevice& pd : pciDevList) findCdiDriver(pd);
 
+            KOUT::outl("breakpoint in machine");
   // start irq thread after cdi init -> avoid interference from device irqs
   DBG::outl(DBG::Boot, "Creating IRQ thread...");
   Thread::create()->setPriority(topPriority)->setAffinity(processorTable[0].scheduler)->start((ptr_t)asyncIrqLoop);
@@ -439,15 +438,10 @@ void Machine::bootCleanup() {
 }
 
 void Machine::bootMain() {
-  KOUT::outl("test");
   Machine::initBSP2();
-  KOUT::outl("line 1");
   Machine::bootCleanup();
-  KOUT::outl("line 2");
   Thread::create()->start((ptr_t)kosMain);
-  KOUT::outl("line 3");
   LocalProcessor::getScheduler()->terminate(); // explicitly terminate boot thread
-  KOUT::outl("line 4");
 }
 
 void Machine::setAffinity(Thread& t, mword idx) {

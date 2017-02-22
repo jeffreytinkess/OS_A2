@@ -37,12 +37,13 @@ class Scheduler {
 
   static unsigned int schedMinGranularity;
   static unsigned int defaultEpochLength;
-
+  unsigned int minvRuntime;
+  unsigned int epochLength;
   Scheduler* partner;
 
   template<typename... Args>
   inline void switchThread(Scheduler* target, Args&... a);
-  mword minvRuntime;
+
   inline void enqueue(Thread& t);
 
   Scheduler(const Scheduler&) = delete;                  // no copy

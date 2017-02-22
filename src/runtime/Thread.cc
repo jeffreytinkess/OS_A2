@@ -22,6 +22,7 @@
 #include "kernel/Output.h"
 
 Thread* Thread::create(vaddr mem, size_t ss) {
+  
   vaddr This = mem + ss - sizeof(Thread);
   Runtime::debugT("Thread create: ", FmtHex(mem), '/', FmtHex(ss), '/', FmtHex(This));
 
