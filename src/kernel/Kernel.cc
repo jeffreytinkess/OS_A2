@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,7 +21,6 @@
 #include "world/Access.h"
 #include "machine/Machine.h"
 #include "devices/Keyboard.h"
-
 #include "main/UserMain.h"
 
 AddressSpace kernelSpace(true); // AddressSpace.h
@@ -39,6 +38,7 @@ static void keybLoop() {
 #endif
 
 void kosMain() {
+
   KOUT::outl("Welcome to KOS!", kendl);
   auto iter = kernelFS.find("motb");
   if (iter == kernelFS.end()) {
@@ -52,6 +52,58 @@ void kosMain() {
     }
     KOUT::outl();
   }
+
+ //Assignment 2 start
+ bool temp = false;
+ unsigned int parseValue = 0;
+ unsigned int varEnum = 1;
+ auto myiter = kernelFS.find("schedparam");
+ if (myiter == kernelFS.end()){
+  KOUT::outl("cannot find schedparam file");
+ } else {
+  FileAccess f(myiter -> second);
+  for (;;) {
+   char c;
+
+   if (f.read(&c, 1) == 0) break;
+   KOUT::out1(c);
+   if (temp){
+     if (c < 58 && c > 47){
+       unsigned int charVal = c - 48;
+       parseValue *= 10;
+       parseValue += charVal;
+
+     } else {
+       temp = false;
+       //parse string to integer
+       if (varEnum == 1){
+         //setting schedMinGranularity
+         Scheduler::setMinGran(parseValue);
+         varEnum++;
+         parseValue = 0;
+       } else if (varEnum == 2){
+         //setting epoch length
+
+         Scheduler::setDefaultEpoch(parseValue);
+         varEnum++;
+         parseValue = 0;
+       } else {
+         //should never be called
+         KOUT::outl ("Tried to call third line of file, ERROR");
+       }
+     }
+   }
+   if (c == ' '){
+     temp = true;
+   }
+
+  }
+  KOUT:: outl();
+ }
+
+
+
+	//Assignment 2 end
 #if TESTING_TIMER_TEST
   StdErr.print(" timer test, 3 secs...");
   for (int i = 0; i < 3; i++) {

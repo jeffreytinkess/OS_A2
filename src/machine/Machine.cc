@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -339,11 +339,11 @@ void Machine::initBSP2() {
   tipiHandler = tipiReceiver;
   sendIPI(bspIndex, APIC::TestIPI);
   while (!tipiTest) CPU::Pause();
-
   // NOTE: could use broadcast and ticket lock sequencing
   // start up APs one by one (on boot stack): APs go into long mode and halt
   StdOut.print("AP init (", FmtHex(BOOTAP16 / 0x1000), "):");
   for (mword idx = 0; idx < processorCount; idx += 1) {
+
     if (idx != bspIndex) {
       apIndex = idx;
       for (;;) {
@@ -353,6 +353,7 @@ void Machine::initBSP2() {
         StdOut.print('I');
         Clock::wait(100);                // wait for HW init
         MappedAPIC()->sendInitDeassertIPI(ai);
+
         StdOut.print('D');
         Clock::wait(100);                // wait for HW init
         for (int i = 0; i < 10; i += 1) {
@@ -369,10 +370,10 @@ apDone:
     }
   }
   StdOut.print(kendl);
-
   DBG::outl(DBG::Boot, "Building kernel filesystem...");
   // initialize kernel file system with boot modules
   Multiboot::readModules(kernelBase);
+
 
   // more info from ACPI; could find IOAPIC interrupt pins for PCI devices
   initACPI2(); // needs "current thread"
@@ -391,12 +392,16 @@ apDone:
   lwip_init_tcpip();
 
   DBG::outl(DBG::Boot, "Starting CDI devices...");
+
+              KOUT::outl("breakpoint in machine");
   // find and install CDI drivers for PCI devices - need interrupts for sleep
   for (const PCIDevice& pd : pciDevList) findCdiDriver(pd);
 
+            KOUT::outl("breakpoint in machine");
   // start irq thread after cdi init -> avoid interference from device irqs
   DBG::outl(DBG::Boot, "Creating IRQ thread...");
   Thread::create()->setPriority(topPriority)->setAffinity(processorTable[0].scheduler)->start((ptr_t)asyncIrqLoop);
+
 }
 
 void Machine::bootCleanup() {
@@ -533,7 +538,7 @@ void Machine::setupIDTable() {
   for (size_t i = 0; i < MaxIrqCount; i += 1) {
     irqTable[i].ioApicAddr    = 0;
     irqTable[i].ioApicIrq     = 0;
-    irqTable[i].globalIrq     = i; 
+    irqTable[i].globalIrq     = i;
     irqTable[i].overrideFlags = 0;
   }
 

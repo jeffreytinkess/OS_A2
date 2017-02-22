@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,13 +20,37 @@
 #include "runtime/Thread.h"
 #include "kernel/Output.h"
 
+unsigned int Scheduler::schedMinGranularity;
+unsigned int Scheduler::defaultEpochLength;
+
+//Assignment 2 start
+
+void Scheduler::setMinGran(unsigned int toSet)   {
+  schedMinGranularity = toSet;
+  }
+void Scheduler::setDefaultEpoch(unsigned int toSet)    {defaultEpochLength = toSet;}
+
+unsigned int Scheduler::getMinGran()   {return schedMinGranularity;}
+unsigned int Scheduler::getDefaultEpoch()    {return defaultEpochLength;}
+
+
+//Assignment 2 end
+
+
 Scheduler::Scheduler() : readyCount(0), preemption(0), resumption(0), partner(this) {
   Thread* idleThread = Thread::create((vaddr)idleStack, minimumStack);
   idleThread->setAffinity(this)->setPriority(idlePriority);
   // use low-level routines, since runtime context might not exist
   idleThread->stackPointer = stackInit(idleThread->stackPointer, &Runtime::getDefaultMemoryContext(), (ptr_t)Runtime::idleLoop, this, nullptr, nullptr);
-  readyQueue[idlePriority].push_back(*idleThread);
+  //readyQueue[idlePriority].push_back(*idleThread);
+
+  readyTree = new Tree<ThreadNode>;
+  readyTree->insert(*(new ThreadNode(idleThread)));
   readyCount += 1;
+  Scheduler::setMinGran(4);
+  Scheduler::setDefaultEpoch(20);
+  minvRuntime = 0;
+  epochLength = 0;
 }
 
 static inline void unlock() {}
@@ -40,16 +64,25 @@ static inline void unlock(BasicLock &l, Args&... a) {
 // very simple N-class prio scheduling!
 template<typename... Args>
 inline void Scheduler::switchThread(Scheduler* target, Args&... a) {
+
   preemption += 1;
   CHECK_LOCK_MIN(sizeof...(Args));
   Thread* nextThread;
   readyLock.acquire();
-  for (mword i = 0; i < (target ? idlePriority : maxPriority); i += 1) {
+  /*for (mword i = 0; i < (target ? idlePriority : maxPriority); i += 1) {
     if (!readyQueue[i].empty()) {
       nextThread = readyQueue[i].pop_front();
       readyCount -= 1;
       goto threadFound;
     }
+  }*/
+  //check if tree is empty
+  if (!readyTree->empty()){
+    nextThread = readyTree->popMinNode()->th;
+    //KOUT::outl("runtime is ",nextThread->vRuntime);
+    readyCount -= 1;
+    //KOUT::outl("tree was empty, count:",readyCount);
+    goto threadFound;
   }
   readyLock.release();
   GENASSERT0(target);
@@ -57,6 +90,7 @@ inline void Scheduler::switchThread(Scheduler* target, Args&... a) {
   return;                                         // return to current thread
 
 threadFound:
+
   readyLock.release();
   resumption += 1;
   Thread* currThread = Runtime::getCurrThread();
@@ -71,10 +105,12 @@ threadFound:
   Runtime::MemoryContext& ctx = Runtime::getMemoryContext();
   Runtime::setCurrThread(nextThread);
   Thread* prevThread = stackSwitch(currThread, target, &currThread->stackPointer, nextThread->stackPointer);
+
   // REMEMBER: Thread might have migrated from other processor, so 'this'
   //           might not be currThread's Scheduler object anymore.
   //           However, 'this' points to prevThread's Scheduler object.
   Runtime::postResume(false, *prevThread, ctx);
+
   if (currThread->state == Thread::Cancelled) {
     currThread->state = Thread::Finishing;
     switchThread(nullptr);
@@ -83,6 +119,7 @@ threadFound:
 }
 
 extern "C" Thread* postSwitch(Thread* prevThread, Scheduler* target) {
+
   CHECK_LOCK_COUNT(1);
   if fastpath(target) Scheduler::resume(*prevThread);
   return prevThread;
@@ -95,20 +132,37 @@ extern "C" void invokeThread(Thread* prevThread, Runtime::MemoryContext* ctx, fu
 }
 
 void Scheduler::enqueue(Thread& t) {
+  Thread* temp = &t;
+  if (!readyTree->empty()){
+    minvRuntime = readyTree->readMinNode()->th->vRuntime;
+    temp -> vRuntime = minvRuntime;
+  } else {
+    //temp -> vRuntime += 1;
+  }
+  if (defaultEpochLength >= readyCount * schedMinGranularity){
+    epochLength = defaultEpochLength;
+  } else {
+    epochLength = readyCount * schedMinGranularity;
+  }
   GENASSERT1(t.priority < maxPriority, t.priority);
   readyLock.acquire();
-  readyQueue[t.priority].push_back(t);
-  bool wake = (readyCount == 0);
+  //readyQueue[t.priority].push_back(t);
+  readyTree->insert(*(new ThreadNode(temp)));
   readyCount += 1;
+  bool wake = (readyCount == 0);
+
   readyLock.release();
   Runtime::debugS("Thread ", FmtHex(&t), " queued on ", FmtHex(this));
   if (wake) Runtime::wakeUp(this);
 }
 
 void Scheduler::resume(Thread& t) {
+
   GENASSERT1(&t != Runtime::getCurrThread(), Runtime::getCurrThread());
+
   if (t.nextScheduler) t.nextScheduler->enqueue(t);
   else Runtime::getScheduler()->enqueue(t);
+
 }
 
 void Scheduler::preempt() {               // IRQs disabled, lock count inflated
@@ -121,16 +175,46 @@ void Scheduler::preempt() {               // IRQs disabled, lock count inflated
 #else /* simple load balancing */
   if (!target) target = (partner->readyCount + 2 < readyCount) ? partner : this;
 #endif
-  switchThread(target);
+  //if not empty
+  //pop current thread, update its vruntime, insert into tree. save old vruntime
+  //if old vruntime < schedMinGranularity, do nothing
+  //else, check if oldvruntime > new left node vruntime. switch only if true
+
+  Thread* current = Runtime::getCurrThread();
+  if (current->priority <= 0){
+    current->vRuntime += 1;
+  }
+  current->vRuntime += current->priority;
+  if (readyTree->empty()){
+    return;
+  }
+  if (current->vRuntime > schedMinGranularity){
+    if (readyTree->readMinNode()->th->vRuntime < current->vRuntime){
+      switchThread(target);
+    }
+  }
+  //switchThread(target);
 #endif
 }
 
-void Scheduler::suspend(BasicLock& lk) {
+void Scheduler::suspend(BasicLock& lk) {/*
+  Thread* temp = Runtime::getCurrThread();
+  if (temp->vRuntime > minvRuntime){
+  temp->vRuntime = temp->vRuntime - minvRuntime;
+  } else {
+  temp->vRuntime = 0;
+}*/
   Runtime::FakeLock fl;
   switchThread(nullptr, lk);
 }
 
 void Scheduler::suspend(BasicLock& lk1, BasicLock& lk2) {
+  /*Thread* temp = Runtime::getCurrThread();
+  if (temp->vRuntime > minvRuntime){
+  temp->vRuntime = temp->vRuntime - minvRuntime;
+  } else {
+  temp->vRuntime = 0;
+}*/
   Runtime::FakeLock fl;
   switchThread(nullptr, lk1, lk2);
 }

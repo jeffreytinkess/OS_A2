@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,8 +22,10 @@
 #include "kernel/Output.h"
 
 Thread* Thread::create(vaddr mem, size_t ss) {
+  
   vaddr This = mem + ss - sizeof(Thread);
   Runtime::debugT("Thread create: ", FmtHex(mem), '/', FmtHex(ss), '/', FmtHex(This));
+
   return new (ptr_t(This)) Thread(mem, ss);
 }
 
